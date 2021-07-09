@@ -1,5 +1,6 @@
 from fastapi.testclient import TestClient
 from main import app
+from datetime import datetime
 
 # test to check the correct functioning of the /ping route
 def test_ping():
@@ -7,7 +8,7 @@ def test_ping():
         response = client.get("/ping")
         # asserting the correct response is received
         assert response.status_code == 200
-        assert response.json() == {"ping": "pong"}
+        assert response.json() == {"ping": "pong" , "timestamp": datetime.now().strftime("%m/%d/%Y, %H:%M:%S")}
 
 
 # test to check if Iris Virginica is classified correctly
@@ -23,4 +24,19 @@ def test_pred_virginica():
         response = client.post("/predict_flower", json=payload)
         # asserting the correct response is received
         assert response.status_code == 200
-        assert response.json() == {"flower_class": "Iris Virginica"}
+        assert response.json() == {"flower_class": "Iris Virginica" , "timestamp": datetime.now().strftime("%m/%d/%Y, %H:%M:%S")}
+
+#Task2 Writing test cases
+def test_kuts():
+    with TestClient(app) as client:
+        response = client.get("/kuts")
+        # asserting the correct response is received
+        assert response.status_code == 200
+        assert response.json() == {"kuts": "This is Shiuli" , "timestamp": datetime.now().strftime("%m/%d/%Y, %H:%M:%S")}
+
+def test_group():
+    with TestClient(app) as client:
+        response = client.get("/group")
+        # asserting the correct response is received
+        assert response.status_code == 200
+        assert response.json() == {"Group": "My Cool Group" , "timestamp": datetime.now().strftime("%m/%d/%Y, %H:%M:%S")}
